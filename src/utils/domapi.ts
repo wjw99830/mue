@@ -1,0 +1,1 @@
+export const createElement = (tag: string): Node => document.createElement(tag);
