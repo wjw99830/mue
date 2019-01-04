@@ -1,5 +1,6 @@
 import { observe } from './observe/observer';
 import { Component } from './instance/base';
+import { h } from './vdom/create-element';
 class MyComponent extends Component {
   private name: string = 'wjw';
   private age: number = 21;
@@ -11,9 +12,11 @@ class MyComponent extends Component {
     super();
   }
   public render() {
-    console.log(`My name is ${this.name}, and my age is ${this.age}`);
-    console.log(this);
-    console.log(this.profile.like);
+    return h('div', {
+      attrs: {
+        id: 'div-id'
+      }
+    }, ['div text node', h('span', {}, ['span text node'])]);
   }
 }
 observe(new MyComponent());
