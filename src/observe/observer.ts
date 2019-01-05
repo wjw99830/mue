@@ -1,37 +1,49 @@
 import { Dep } from './dep';
 import { Watcher } from './watcher';
 import { Component } from '@/instance/base';
+import { patch } from '@/vdom/patch';
+import { VNode } from '@/vdom/vnode';
+import { keys } from '@/utils/iterators';
 
 export const observe = (target: Component) => {
   const ob = new Observer(target);
-  const watcher = new Watcher(target.render.bind(ob.proxy));
+  const watcher = new Watcher(() => {
+    const vnode = ob.proxy.render();
+    patch(target.getVNode() as VNode, vnode);
+    target.setVNode(vnode);
+  });
   Object.defineProperty(target, '$watcher', {
     enumerable: false,
     get() {
       return watcher;
     },
   });
+  Object.defineProperty(target, '$observer', {
+    enumerable: false,
+    get() {
+      return ob;
+    },
+  });
   return ob.proxy;
 };
 export class Observer {
-  public proxy!: Component;
+  public proxy!: object & Record<string, any>;
+  public target!: object & Record<string, any>;
   private deps: { [index: string]: Dep } = {};
-  constructor(target: Component) {
+  constructor(target: object & Record<string, any>, private isProps: boolean = false) {
+    this.target = target;
     this.proxy = this.defineReactive(target);
-    // const ob = this;
-    // Object.defineProperty(target, '$observer', {
-    //   enumerable: false,
-    //   get() {
-    //     return ob;
-    //   },
-    // });
   }
-  private defineReactive(obj: Component) {
+  private defineReactive(obj: object & Record<string, any>) {
     const ob = this;
-    for (const key of Object.keys(obj)) {
+    for (const key of keys(obj)) {
       this.deps[key] = new Dep();
       if (typeof obj[key] === 'object') {
-        obj[key] = new Observer(obj[key]).proxy;
+        if (key !== 'props') {
+          obj[key] = new Observer(obj[key]).proxy;
+        } else {
+          obj[key] = new Observer(obj[key], true).proxy;
+        }
       }
     }
     return new Proxy(obj, {
@@ -45,10 +57,15 @@ export class Observer {
         return target[key];
       },
       set(target: any, key: string, value: any): boolean {
-        target[key] = typeof value === 'object' ? ob.defineReactive(value) : value;
-        ob.deps[key].notify();
-        return true;
+        if (!ob.isProps) {
+          target[key] = typeof value === 'object' ? ob.defineReactive(value) : value;
+          ob.deps[key].notify();
+          return true;
+        } else {
+          console.warn(`You're trying to set a value which is defined as a Prop. Please set it in parent component.`);
+          return false;
+        }
       },
     });
   }
-}
+};

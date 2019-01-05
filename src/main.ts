@@ -1,22 +1,30 @@
-import { observe } from './observe/observer';
 import { Component } from './instance/base';
 import { h } from './vdom/create-element';
+import { Mue } from './mue';
+class Child extends Component {
+  private childName: string = 'its child.';
+  public render() {
+    return h('span', {
+      on: {
+        click: () => {
+          this.childName += ' set';
+        },
+      },
+    }, [`This component has a text node '${this.childName}'`]);
+  }
+}
 class MyComponent extends Component {
   private name: string = 'wjw';
   private age: number = 21;
-  private profile = {
-    like: 'code',
-    unlike: 'read book',
-  };
   constructor() {
     super();
   }
   public render() {
     return h('div', {
       attrs: {
-        id: 'div-id'
-      }
-    }, ['div text node', h('span', {}, ['span text node'])]);
+        id: 'div-id',
+      },
+    }, [h('p', {}, ['p text node' + this.age]), h(Child, {}, [])]);
   }
 }
-observe(new MyComponent());
+Mue(MyComponent).$mount('#app');
