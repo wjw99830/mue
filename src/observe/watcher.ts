@@ -1,5 +1,5 @@
 import { Dep } from './dep';
-
+export const watcherQ: Watcher[] = [];
 export class Watcher {
   public static target: Watcher | void;
   private static id: number = 0;

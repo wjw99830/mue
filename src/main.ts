@@ -1,6 +1,8 @@
 import { Component } from './instance/base';
 import { h } from './vdom/create-element';
 import { Mue } from './mue';
+import { query } from './utils/domapi';
+import { nextTick } from './utils/nextTick';
 class Child extends Component {
   private childName: string = 'its child.';
   public render() {
