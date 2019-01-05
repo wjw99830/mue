@@ -1,20 +1,16 @@
 import { createElement, createTextNode } from '@/utils/domapi';
 import { isUndef, isDef, isString } from '@/utils';
 import { ownNames, keys } from '@/utils/iterators';
-import { ComponentConstructor } from '@/instance/base';
 
 export class VNode {
-  private static id: number = 0;
   public el: Node | void = undefined;
-  private id!: number;
+  public key: string | void = undefined;
   constructor(
-    private tag?: string,
-    private data?: VNodeData,
-    private children?: VNodeChild[],
-    private text?: string,
-  ) {
-    this.id = ++VNode.id;
-  }
+    public tag?: string,
+    public data: VNodeData = {},
+    public children: VNode[] = [],
+    public text?: string,
+  ) {}
   public bindElement(el: Node) {
     this.el = el;
   }
@@ -109,7 +105,6 @@ export class VNode {
     }
   }
 }
-// export const createTextVNode = (text: string): VNode => new VNode(undefined, undefined, undefined, text);
 export interface VNodeData {
     attrs?: Attrs;
     props?: Props;
@@ -119,10 +114,10 @@ export interface VNodeData {
     key?: string | number;
 }
 export type VNodeChild = (VNode | string | null | void);
-type Attrs = Record<string, string | number | boolean>;
+export type Attrs = Record<string, string | number | boolean>;
 export type Props = Record<string, any>;
-type Classes = Record<string, boolean>;
-type VNodeStyle = Record<string, string>;
-type On = {
+export type Classes = Record<string, boolean>;
+export type VNodeStyle = Record<string, string>;
+export type On = {
   [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
 } & { [index: string]: (event: Event) => void };

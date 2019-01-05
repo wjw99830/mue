@@ -6,7 +6,7 @@ export class Dep {
     const subs = this.subs;
     if (watcherQ.length === 0) {
       Promise.resolve().then(() => {
-        while(watcherQ.length > 0) {
+        while (watcherQ.length > 0) {
           const watcher = watcherQ.shift() as Watcher;
           watcher.run();
         }

@@ -3,16 +3,7 @@ import { VNode, VNodeChild, Props } from '@/vdom/vnode';
 import { Watcher } from '@/observe/watcher';
 import { patch } from '@/vdom/patch';
 import { observe, Observer } from '@/observe/observer';
-interface ConstructorOptions {
-  el?: HTMLElement;
-  props?: {
-    [index: string]: any;
-  };
 
-}
-export interface ComponentConstructor {
-  new (props?: Props): Component;
-}
 export abstract class Component {
   [index: string]: any;
   public $slot: VNodeChild[] = [];
@@ -24,9 +15,9 @@ export abstract class Component {
     this.props = props || {};
     Object.keys(this).forEach((key: string) => {
       Object.defineProperty(this, key, {
-        enumerable: false
+        enumerable: false,
       });
-    })
+    });
   }
   public setVNode(vnode: VNode) {
     this.$vnode = vnode;
@@ -50,9 +41,9 @@ export abstract class Component {
         console.warn(`Provided Selector (${id}) is not exsisted in DOM.`);
         return;
       } else {
-        new Watcher(() => {
+        const renderWatcher = new Watcher(() => {
           const vnode = this.getVNode() as VNode;
-          patch(el, vnode);
+          patch(el as Node, vnode);
           this.$observer.target.setEl(vnode.el as Node);
         }, false, true);
       }
@@ -74,3 +65,4 @@ export abstract class Component {
   }
   public abstract render(): VNode;
 }
+export type ComponentConstructor = new (props?: Props) => Component;

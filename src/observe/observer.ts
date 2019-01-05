@@ -39,7 +39,7 @@ export class Observer {
     for (const key of keys(obj)) {
       this.deps[key] = new Dep();
       if (typeof obj[key] === 'object') {
-        if (key !== 'props') {
+        if (key !== 'props' && !this.isProps) {
           obj[key] = new Observer(obj[key]).proxy;
         } else {
           obj[key] = new Observer(obj[key], true).proxy;
@@ -68,4 +68,4 @@ export class Observer {
       },
     });
   }
-};
+}

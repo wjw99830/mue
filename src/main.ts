@@ -1,16 +1,19 @@
 import { Component } from './instance/base';
 import { h } from './vdom/create-element';
 import { Mue } from './mue';
-import { query } from './utils/domapi';
-import { nextTick } from './utils/nextTick';
 class Child extends Component {
   private childName: string = 'its child.';
+  private classToggle: boolean = true;
   public render() {
-    return h('span', {
+    return h('button', {
       on: {
         click: () => {
           this.childName += ' set';
+          this.classToggle = !this.classToggle
         },
+      },
+      class: {
+        'my-btn': this.classToggle,
       },
     }, [`This component has a text node '${this.childName}'`]);
   }

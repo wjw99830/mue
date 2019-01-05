@@ -7,7 +7,7 @@ export const h = (tagOrComponent: string | ComponentConstructor, data: VNodeData
   let vnode: VNode;
   const vnodeChildren = children.map((child: VNodeChild) => {
     return isString(child) ? new VNode(undefined, undefined, undefined, child as string) : child;
-  });
+  }).filter((child: VNodeChild) => child) as VNode[];
   if (isString(tagOrComponent)) {
     const tag = tagOrComponent as string;
     vnode = new VNode(tag, data, vnodeChildren);
