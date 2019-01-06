@@ -13,7 +13,9 @@ export class Dep {
       });
     }
     for (let i = 0, l = subs.length; i < l; i++) {
-      watcherQ.push(subs[i]);
+      if (!watcherQ.includes(subs[i])) {
+        watcherQ.push(subs[i]);
+      }
     }
     this.subs = [];
   }

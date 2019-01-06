@@ -58,13 +58,12 @@ export class Observer {
       },
       set(target: any, key: string, value: any): boolean {
         if (!ob.isProps) {
-          target[key] = typeof value === 'object' ? ob.defineReactive(value) : value;
+          target[key] = typeof value === 'object' ? new Observer(value).proxy : value;
           ob.deps[key].notify();
-          return true;
         } else {
           console.warn(`You're trying to set a value which is defined as a Prop. Please set it in parent component.`);
-          return false;
         }
+        return true;
       },
     });
   }

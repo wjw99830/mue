@@ -1,9 +1,9 @@
 import { Component, ComponentConstructor } from '../instance/base';
 import { isString } from '../utils';
-import { VNode, VNodeData, VNodeChild } from './vnode';
+import { VNode, VNodeData, VNodeChild, Props } from './vnode';
 import { observe } from '../observe/observer';
 
-export const h = (tagOrComponent: string | ComponentConstructor, data: VNodeData, children: VNodeChild[]) => {
+export const h = (tagOrComponent: string | ComponentConstructor, data: VNodeData<Props>, children: VNodeChild[]) => {
   let vnode: VNode;
   const vnodeChildren = children.map((child: VNodeChild) => {
     return isString(child) ? new VNode(undefined, undefined, undefined, child as string) : child;
@@ -13,7 +13,7 @@ export const h = (tagOrComponent: string | ComponentConstructor, data: VNodeData
     vnode = new VNode(tag, data, vnodeChildren);
   } else {
     const comp = tagOrComponent as ComponentConstructor;
-    const vm = new comp() as Component;
+    const vm = new comp(data.props) as Component;
     observe(vm);
     vm.$slot = vnodeChildren;
     vnode = vm.getVNode() as VNode;

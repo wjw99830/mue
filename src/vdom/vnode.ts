@@ -7,7 +7,7 @@ export class VNode {
   public key: string | void = undefined;
   constructor(
     public tag?: string,
-    public data: VNodeData = {},
+    public data: VNodeData<Props> = {},
     public children: VNode[] = [],
     public text?: string,
   ) {}
@@ -33,7 +33,7 @@ export class VNode {
     return node;
   }
   private setAttributes(el: HTMLElement) {
-    const data = this.data as VNodeData;
+    const data = this.data as VNodeData<Props>;
     if (isDef(data.attrs)) {
       const attrs = data.attrs as Attrs;
       for (const attrName of ownNames(attrs)) {
@@ -42,7 +42,7 @@ export class VNode {
     }
   }
   private setProperties(el: HTMLElement) {
-    const data = this.data as VNodeData;
+    const data = this.data as VNodeData<Props>;
     if (isDef(data.props)) {
       const props = data.props as Props;
       for (const propName of keys(props)) {
@@ -51,7 +51,7 @@ export class VNode {
     }
   }
   private setClass(el: HTMLElement) {
-    const data = this.data as VNodeData;
+    const data = this.data as VNodeData<Props>;
     if (isDef(data.class)) {
       const classes = data.class as Classes;
       for (const className of keys(classes)) {
@@ -60,7 +60,7 @@ export class VNode {
     }
   }
   private setStyle(el: HTMLElement) {
-    const data = this.data as VNodeData;
+    const data = this.data as VNodeData<Props>;
     if (isDef(data.style)) {
       const style = data.style as VNodeStyle;
       for (const styleName of keys(style)) {
@@ -69,7 +69,7 @@ export class VNode {
     }
   }
   private registerEventListeners(el: HTMLElement) {
-    const data = this.data as VNodeData;
+    const data = this.data as VNodeData<Props>;
     if (isDef(data.on)) {
       const on = data.on as On;
       for (const eventName of keys(on)) {
@@ -78,7 +78,7 @@ export class VNode {
     }
   }
   private removeEventListeners(el: HTMLElement) {
-    const data = this.data as VNodeData;
+    const data = this.data as VNodeData<Props>;
     if (isDef(data.on)) {
       const on = data.on as On;
       for (const eventName of keys(on)) {
@@ -105,9 +105,9 @@ export class VNode {
     }
   }
 }
-export interface VNodeData {
+export interface VNodeData<T extends Props> {
     attrs?: Attrs;
-    props?: Props;
+    props?: T;
     class?: Classes;
     style?: VNodeStyle;
     on?: On;

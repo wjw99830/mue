@@ -42,12 +42,12 @@ export abstract class Component {
       } else {
         const renderWatcher = new Watcher(() => {
           const vnode = this.getVNode() as VNode;
-          patch(el as Node, vnode);
+          patch(el, vnode);
           this.$observer.target.setEl(vnode.el as Node);
-        }, false, true);
+        }, false /* lazy */, true /* renderOnly */);
       }
     } else {
-      console.warn(`Please provide a selector for id.`);
+      console.warn(`Please provide a selector with id.`);
     }
   }
   public beforeCreate() {
