@@ -1,5 +1,5 @@
 import { VNode } from './vnode';
-import { has, isUndef, isDef } from '@/utils';
+import { has, isDef } from '../utils';
 import { diff } from './diff';
 
 export const equalVNode = (n1: VNode, n2: VNode) => n1.tag === n2.tag;

@@ -1,6 +1,6 @@
-import { createElement, createTextNode } from '@/utils/domapi';
-import { isUndef, isDef, isString } from '@/utils';
-import { ownNames, keys } from '@/utils/iterators';
+import { createElement, createTextNode } from '../utils/domapi';
+import { isUndef, isDef, isString } from '../utils';
+import { ownNames, keys } from '../utils/iterators';
 
 export class VNode {
   public el: Node | void = undefined;

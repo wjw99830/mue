@@ -1,6 +1,6 @@
 import { VNode, Attrs, Props, Classes, VNodeStyle, VNodeData } from './vnode';
-import { entries } from '@/utils/iterators';
-import { has, isDef } from '@/utils';
+import { entries } from '../utils/iterators';
+import { has, isDef } from '../utils';
 import { patch } from './patch';
 export const diffData = (old: VNode, vnode: VNode) => {
   const el = old.el as HTMLElement & Props;
@@ -69,7 +69,7 @@ export const diffText = (old: VNode, vnode: VNode) => {
   if (old.text !== vnode.text) {
     textNode.textContent = vnode.text as string;
   }
-}
+};
 export const diff = (old: VNode, vnode: VNode) => {
   if (isDef(vnode.text) && isDef(old.text)) {
     diffText(old, vnode);

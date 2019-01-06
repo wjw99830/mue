@@ -1,6 +1,4 @@
-import { Component } from './instance/base';
-import { h } from './vdom/create-element';
-import { Mue } from './mue';
+import { Wie, Component, h } from './wie';
 class Child extends Component {
   private childName: string = 'its child.';
   private classToggle: boolean = true;
@@ -9,7 +7,7 @@ class Child extends Component {
       on: {
         click: () => {
           this.childName += ' set';
-          this.classToggle = !this.classToggle
+          this.classToggle = !this.classToggle;
         },
       },
       class: {
@@ -32,4 +30,4 @@ class MyComponent extends Component {
     }, [h('p', {}, ['p text node' + this.age]), h(Child, {}, [])]);
   }
 }
-Mue(MyComponent).$mount('#app');
+Wie(MyComponent).$mount('#app');

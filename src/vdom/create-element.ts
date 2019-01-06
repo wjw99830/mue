@@ -1,7 +1,7 @@
-import { Component, ComponentConstructor } from '@/instance/base';
-import { isString } from '@/utils';
+import { Component, ComponentConstructor } from '../instance/base';
+import { isString } from '../utils';
 import { VNode, VNodeData, VNodeChild } from './vnode';
-import { observe } from '@/observe/observer';
+import { observe } from '../observe/observer';
 
 export const h = (tagOrComponent: string | ComponentConstructor, data: VNodeData, children: VNodeChild[]) => {
   let vnode: VNode;

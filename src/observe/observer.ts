@@ -1,9 +1,9 @@
 import { Dep } from './dep';
 import { Watcher } from './watcher';
-import { Component } from '@/instance/base';
-import { patch } from '@/vdom/patch';
-import { VNode } from '@/vdom/vnode';
-import { keys } from '@/utils/iterators';
+import { Component } from '../instance/base';
+import { patch } from '../vdom/patch';
+import { VNode } from '../vdom/vnode';
+import { keys } from '../utils/iterators';
 
 export const observe = (target: Component) => {
   const ob = new Observer(target);

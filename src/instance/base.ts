@@ -1,8 +1,7 @@
-import { query } from '@/utils/domapi';
-import { VNode, VNodeChild, Props } from '@/vdom/vnode';
-import { Watcher } from '@/observe/watcher';
-import { patch } from '@/vdom/patch';
-import { observe, Observer } from '@/observe/observer';
+import { query } from '../utils/domapi';
+import { VNode, VNodeChild, Props } from '../vdom/vnode';
+import { Watcher } from '../observe/watcher';
+import { patch } from '../vdom/patch';
 
 export abstract class Component {
   [index: string]: any;
