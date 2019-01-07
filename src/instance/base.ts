@@ -2,21 +2,20 @@ import { query } from '../utils/domapi';
 import { VNode, VNodeChild, Props } from '../vdom/vnode';
 import { Watcher } from '../observe/watcher';
 import { patch } from '../vdom/patch';
+import { Observer } from '@/observe/observer';
+import { isUndef, isDef } from '@/utils';
 
 export abstract class Component {
   [index: string]: any;
   public $slot: VNodeChild[] = [];
+  public $observer!: Observer;
+  public $watcher!: Watcher;
   protected props: Props;
-  private $vnode: VNode | void = undefined;
+  private $vnode!: VNode;
   private $el: Node | void = undefined;
   private $isMounted: boolean = false;
   constructor(props?: Props) {
     this.props = props || {};
-    Object.keys(this).forEach((key: string) => {
-      Object.defineProperty(this, key, {
-        enumerable: false,
-      });
-    });
   }
   public setVNode(vnode: VNode) {
     this.$vnode = vnode;
@@ -49,6 +48,24 @@ export abstract class Component {
     } else {
       console.warn(`Please provide a selector with id.`);
     }
+  }
+  public $destroy() {
+    function _destroy(vnode: VNode) {
+      delete vnode.el;
+      for (const child of vnode.children) {
+        if (isDef(child.componentInstance)) {
+          const ins = vnode.componentInstance as Component;
+          ins.$destroy();
+          delete vnode.componentInstance;
+        } else {
+          _destroy(child);
+        }
+      }
+    }
+    delete this.$observer;
+    delete this.$watcher;
+    delete this.$el;
+    _destroy(this.$vnode as VNode);
   }
   public beforeCreate() {
     console.log('call beforeCreate.');

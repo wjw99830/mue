@@ -1,7 +1,10 @@
-export const isUndef = (v: any): boolean => typeof v === 'undefined';
+export const isUndef = (v: any): v is undefined => typeof v === 'undefined';
 export const isDef = (v: any): boolean => typeof v !== 'undefined';
-export const isString = (v: any): boolean => typeof v === 'string';
+export const isString = (v: any): v is string => typeof v === 'string';
 export const hasOwn = (obj: object, key: string) => obj.hasOwnProperty(key);
 export const has = (obj: Record<string, any>, key: string) => isDef(obj[key]);
 export const noop = () => void(0);
 export const safeString = (str: string) => str.replace('<', '&lt;').replace('>', '&gt;');
+export const isPrivateField = (fieldName: string | number): boolean => fieldName.toString().match(/^\$/g) !== null;
+export const isFunction = (v: any): boolean => typeof v === 'function';
+export const isArray = (v: any): v is any[] => Array.isArray(v);

@@ -1,8 +1,9 @@
 import { VNode, Attrs, Props, Classes, VNodeStyle, VNodeData } from './vnode';
 import { entries } from '../utils/iterators';
-import { has, isDef } from '../utils';
+import { has, isDef, isUndef } from '../utils';
 import { patch } from './patch';
 import * as dom from '../utils/domapi';
+import { Component } from '@/instance/base';
 
 export const diffData = (old: VNode, vnode: VNode) => {
   const el = old.el as HTMLElement & Props;
@@ -61,7 +62,22 @@ export const diffData = (old: VNode, vnode: VNode) => {
 export const diffChildren = (old: VNode, vnode: VNode) => {
   const el = old.el as HTMLElement;
   for (const [index, child] of vnode.children.entries()) {
-    patch(old.children[index], child);
+    if (isUndef(old.children[index])) {
+      el.appendChild(vnode.children[index].createHTMLElement());
+    } else {
+      patch(old.children[index], child);
+    }
+  }
+  for (let i = vnode.children.length; i < old.children.length; i++) {
+    if (isUndef(vnode.children[i])) {
+      dom.removeChild(el, old.children[i].el as Node);
+      if (old.children[i].componentInstance) {
+        const ins = old.children[i].componentInstance as Component;
+        ins.$destroy();
+      } else {
+        delete old.children[i].el;
+      }
+    }
   }
 };
 export const diffText = (old: VNode, vnode: VNode) => {

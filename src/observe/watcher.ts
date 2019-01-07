@@ -1,7 +1,7 @@
 import { Dep } from './dep';
 export const watcherQ: Watcher[] = [];
 export class Watcher {
-  public static target: Watcher | void;
+  public static target: Watcher[] = [];
   private deps: Dep[] = [];
   constructor(public update: () => void, lazy: boolean = false, private isRenderWatcher: boolean = false) {
     if (!lazy) {
@@ -9,15 +9,22 @@ export class Watcher {
     }
   }
   public subscribe(dep: Dep) {
-    this.deps.push(dep);
+    if (!this.deps.includes(dep)) {
+      this.deps.push(dep);
+    }
   }
   public run() {
     if (this.isRenderWatcher) {
       this.update();
     } else {
-      Watcher.target = this;
+      pushWatcher(this);
+      console.log('w')
       this.update();
-      Watcher.target = undefined;
+      popWatcher();
     }
   }
 }
+export const pushWatcher = (w: Watcher) => {
+  Watcher.target.push(w);
+};
+export const popWatcher = () => Watcher.target.pop();
