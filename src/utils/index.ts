@@ -8,3 +8,5 @@ export const safeString = (str: string) => str.replace('<', '&lt;').replace('>',
 export const isPrivateField = (fieldName: string | number): boolean => fieldName.toString().match(/^\$/g) !== null;
 export const isFunction = (v: any): boolean => typeof v === 'function';
 export const isArray = (v: any): v is any[] => Array.isArray(v);
+export const warn = console.warn;
+export const log = console.log;

@@ -1,12 +1,15 @@
-import { ComponentConstructor } from './instance/base';
-import { activateComponent } from './observe/observer';
+import { createWatcher } from './observe/observer';
+import { App } from './component/func';
+import { mount } from './vdom/mount';
 
-export function Wie(app: ComponentConstructor) {
-  const ins = new app();
-  return activateComponent(ins);
+export function Wie(app: App) {
+  app.$watcher = createWatcher(app);
+  return (sel: string) => {
+    mount(sel, app);
+  };
 }
 export { h } from './vdom/create-element';
-export { Component } from './instance/base';
+export { Component, App } from './component/func';
 export { nextTick } from './utils/nextTick';
-export { Props, VNodeData, VNode } from './vdom/vnode';
+export { Props, VNodeChild } from './vdom/vnode';
 export { observe } from './observe/observer';

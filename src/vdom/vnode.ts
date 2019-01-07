@@ -1,12 +1,10 @@
 import { createElement, createTextNode } from '../utils/domapi';
 import { isUndef, isDef, isString } from '../utils';
 import { ownNames, keys } from '../utils/iterators';
-import { Component } from '../instance/base';
 
 export class VNode {
   public el: Node | void = undefined;
   public key: string | void = undefined;
-  public componentInstance?: Component;
   constructor(
     public tag?: string,
     public data: VNodeData<Props> = {},
@@ -117,7 +115,7 @@ export interface VNodeData<T extends Props> {
 }
 export type VNodeChild = (VNode | string | null | void);
 export type Attrs = Record<string, string | number | boolean>;
-export type Props = Record<string, any>;
+export type Props = Record<string, any> & object;
 export type Classes = Record<string, boolean>;
 export type VNodeStyle = Record<string, string>;
 export type On = {

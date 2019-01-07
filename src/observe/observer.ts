@@ -1,39 +1,48 @@
 import { Dep } from './dep';
-import { Watcher, watcherQ, popWatcher, pushWatcher } from './watcher';
-import { Component } from '../instance/base';
+import { Watcher, popWatcher, pushWatcher } from './watcher';
+import { Component } from '../component/func';
 import { patch } from '../vdom/patch';
-import { VNode } from '../vdom/vnode';
+import { Props, VNodeChild } from '../vdom/vnode';
 import { keys } from '../utils/iterators';
-import { isPrivateField, isFunction, isArray, isDef, isUndef } from '@/utils';
+import { isFunction, isArray, isDef, isUndef, warn } from '../utils';
 
-export const activateComponent = (target: Component) => {
-  const ob = new Observer(target);
-  const watcher = new Watcher(() => {
-    const vnode = ob.proxy.render();
-    patch(target.getVNode() as VNode, vnode);
-    target.setVNode(vnode);
-  });
-  target.$observer = ob;
-  target.$watcher = watcher;
-  return ob.proxy;
-};
+export const createWatcher = (comp: Component, props: Props = {}, children: VNodeChild[] = []) => new Watcher(() => {
+  if (isUndef(comp.$watcher)) {
+    if (comp.beforeCreate) {
+      comp.beforeCreate();
+    }
+  } else {
+    if (comp.beforeUpdate) {
+      comp.beforeUpdate();
+    }
+  }
+  const vnode = comp(props, children);
+  if (isUndef(comp.$watcher)) {
+    if (comp.created) {
+      comp.created();
+    }
+  }
+  patch(comp.$vnode, vnode);
+  comp.$vnode = vnode;
+  if (isUndef(comp.$watcher)) {
+    if (comp.mounted) {
+      comp.mounted();
+    }
+  } else {
+    if (comp.updated) {
+      comp.updated();
+    }
+  }
+});
 export const observe = (target: object) => {
   const ob = new Observer(target);
-  Object.defineProperty(target, '$observer', {
-    enumerable: false,
-    get() {
-      return ob;
-    },
-  });
   return ob.proxy;
 };
 export class Observer {
   public proxy!: object & Record<string, any>;
-  public target!: object & Record<string, any>;
   private deps: { [index: string]: Dep } = {};
   private dep?: Dep; // for Array
   constructor(target: object & Record<string, any>, private isProps: boolean = false) {
-    this.target = target;
     this.proxy = this.defineReactive(target);
   }
   private defineReactive(obj: object & Record<string, any>) {
@@ -59,9 +68,6 @@ export class Observer {
       proxy = new Proxy(obj, {
         get(target: any[] & Record<string | number, any>, key: string | number) {
           const val = isFunction(target[key]) ? (target[key] as () => void).bind(target) : target[key];
-          if (isPrivateField(key)) {
-            return val;
-          }
           if (!ob.dep) {
             ob.dep = new Dep();
           }
@@ -79,28 +85,21 @@ export class Observer {
               ob.dep.notify();
             }
           } else {
-            console.warn(`You're trying to set a value which is defined as a Prop. Please set it in parent component.`);
+            warn(`You're trying to set a value which is defined as a Prop. Please set it in parent component.`);
           }
           return true;
         },
       });
     } else {
       for (const key of keys(obj)) {
-        if (isPrivateField(key)) {
-          continue;
-        }
         this.deps[key] = new Dep();
         if (typeof obj[key] === 'object') {
-          if (key !== 'props' && !this.isProps) {
-            obj[key] = new Observer(obj[key]).proxy;
-          } else {
-            obj[key] = new Observer(obj[key], true).proxy;
-          }
+          obj[key] = new Observer(obj[key]).proxy;
         }
       }
       proxy = new Proxy(obj, {
         get(target: any, key: string) {
-          if (isPrivateField(key) || isFunction(target[key])) {
+          if (isFunction(target[key])) {
             return target[key];
           }
           if (!ob.deps[key]) {
@@ -120,7 +119,7 @@ export class Observer {
               ob.deps[key].notify();
             }
           } else {
-            console.warn(`You're trying to set a value which is defined as a Prop. Please set it in parent component.`);
+            warn(`You're trying to set a value which is defined as a Prop. Please set it in parent component.`);
           }
           return true;
         },

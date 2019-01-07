@@ -3,7 +3,7 @@ export const watcherQ: Watcher[] = [];
 export class Watcher {
   public static target: Watcher[] = [];
   private deps: Dep[] = [];
-  constructor(public update: () => void, lazy: boolean = false, private isRenderWatcher: boolean = false) {
+  constructor(public update: () => void, lazy: boolean = false) {
     if (!lazy) {
       this.run();
     }
@@ -14,14 +14,9 @@ export class Watcher {
     }
   }
   public run() {
-    if (this.isRenderWatcher) {
-      this.update();
-    } else {
-      pushWatcher(this);
-      console.log('w')
-      this.update();
-      popWatcher();
-    }
+    pushWatcher(this);
+    this.update();
+    popWatcher();
   }
 }
 export const pushWatcher = (w: Watcher) => {
