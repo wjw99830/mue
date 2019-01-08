@@ -3,7 +3,7 @@ import { Watcher, popWatcher, pushWatcher } from './watcher';
 import { Component } from '../component';
 import { patch } from '../vdom/patch';
 import { keys } from '../utils/iterators';
-import { isFunction, isArray, isDef, isUndef, warn } from '../utils';
+import { isFunction, isArray, isDef, isUndef, warn, easyCopy } from '../utils';
 
 export const createWatcher = (comp: Component, props: any) => new Watcher((w: Watcher) => {
   const vnode = comp(props);
@@ -11,7 +11,8 @@ export const createWatcher = (comp: Component, props: any) => new Watcher((w: Wa
   w.$vnode = vnode;
 });
 export const observe = <T>(target: T): T => {
-  const ob = new Observer(target);
+  const copy = easyCopy(target);
+  const ob = new Observer(copy);
   return ob.proxy;
 };
 export class Observer {

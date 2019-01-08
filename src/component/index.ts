@@ -9,6 +9,7 @@ declare type Init = (initialState: any, component: InnerStateComponent) => Reset
 export const init: Init = (initialState: any, component: InnerStateComponent) => {
   const reset: Reset = () => {
     const state = observe(initialState);
+    console.log(state);
     return (props: any) => component(state, props);
   };
   reset.$name = 'reset';

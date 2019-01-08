@@ -14,7 +14,9 @@ const btn: InnerStateComponent = (state: any, props: any = { color: '#fff' }) =>
     },
     on: {
       click: () => {
+        console.log(state.active)
         state.active = !state.active;
+        console.log(state.active)
       },
     },
   }, `I'm button ${data.name}`);
@@ -29,13 +31,16 @@ const page = () => {
     },
     on: {
       click: () => {
-        data.name += 'w';
+        data.name = 'wjw';
       },
     },
   }, [
     h('p', {}, `I'm text node of P and my name is ${data.name}`),
     use(btnapi, {
-      color: '#ccc',
+      color: '#ddd',
+    }),
+    use(btnapi, {
+      color: '#bbb',
     }),
   ]);
 };
