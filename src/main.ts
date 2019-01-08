@@ -1,24 +1,43 @@
-import { Wie, Component, h, App, observe } from './wie';
-import { VNodeChild } from './vdom/vnode';
-interface CompProps {
-  prop: string;
-}
-const t = observe({
-  tt: 's',
+import { Wie, h } from './wie';
+import { init, use, InnerStateComponent } from './component';
+import { observe } from './observe/observer';
+const data = observe({
+  name: 'wjw',
 });
-const comp: Component = (props: CompProps, children: VNodeChild[]) => h('p', {}, [
-  'p text node and my prop is ' + props.prop,
-  h('button', {
+const btn: InnerStateComponent = (state: any, props: any = { color: '#fff' }) => {
+  const vnode = h('button', {
+    class: {
+      'btn-active': state.active,
+    },
+    style: {
+      backgroundColor: props.color,
+    },
     on: {
       click: () => {
-        t.tt += 's';
+        state.active = !state.active;
       },
     },
-  },
-  [t.tt, ...children]),
-]);
-const app: App = () => h('div', {}, [
-  'div text node' + t.tt,
-  h(comp, { props: { prop: 's' } as CompProps }, ['   im child for comp']),
-]);
+  }, `I'm button ${data.name}`);
+  return vnode;
+};
+
+const btnapi = init({ active: false }, btn);
+const page = () => {
+  return h('div', {
+    attrs: {
+      id: 'my-app',
+    },
+    on: {
+      click: () => {
+        data.name += 'w';
+      },
+    },
+  }, [
+    h('p', {}, `I'm text node of P and my name is ${data.name}`),
+    use(btnapi, {
+      color: '#ccc',
+    }),
+  ]);
+};
+const app = () => use(page);
 Wie(app)('#app');

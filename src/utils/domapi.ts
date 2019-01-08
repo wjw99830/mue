@@ -18,8 +18,8 @@ export const setProp = (node: Props, propName: string, val: any) => node[propNam
 export const removeProp = (node: Props, propName: string) => node[propName] = null;
 export const setClass = (el: Element, className: string) => el.classList.add(className);
 export const removeClass = (el: Element, className: string) => el.classList.remove(className);
-export const setStyle = (el: HTMLElement, name: string, val: string) => {
-  return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = val;
+export const setStyle = (el: HTMLElement, name: string, val?: string | null) => {
+  return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = val || '';
 };
 export const removeStyle = (el: HTMLElement, name: string) => {
   return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = '';

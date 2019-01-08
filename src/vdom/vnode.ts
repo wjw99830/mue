@@ -1,6 +1,6 @@
-import { createElement, createTextNode } from '../utils/domapi';
+import { createElement, createTextNode, setClass, removeClass } from '../utils/domapi';
 import { isUndef, isDef, isString } from '../utils';
-import { ownNames, keys } from '../utils/iterators';
+import { ownNames, keys, entries } from '../utils/iterators';
 
 export class VNode {
   public el: Node | void = undefined;
@@ -54,8 +54,8 @@ export class VNode {
     const data = this.data as VNodeData<Props>;
     if (isDef(data.class)) {
       const classes = data.class as Classes;
-      for (const className of keys(classes)) {
-        el.classList.add(className);
+      for (const [className, available] of entries(classes)) {
+        available ? setClass(el, className) : removeClass(el, className);
       }
     }
   }
@@ -117,7 +117,9 @@ export type VNodeChild = (VNode | string | null | void);
 export type Attrs = Record<string, string | number | boolean>;
 export type Props = Record<string, any> & object;
 export type Classes = Record<string, boolean>;
-export type VNodeStyle = Record<string, string>;
+export type VNodeStyle = Record<string, string> & {
+  [K in keyof CSSStyleDeclaration]?: string | null;
+} & Record<string, string | null | void>;
 export type On = {
   [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
 } & { [index: string]: (event: Event) => void };

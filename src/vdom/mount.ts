@@ -1,7 +1,7 @@
-import { App } from '@/component/func';
-import { query } from '@/utils/domapi';
+import { query } from '../utils/domapi';
 import { patch } from './patch';
-import { warn } from '@/utils';
+import { warn } from '../utils';
+import { App } from '../component';
 
 export const mount = (sel: string, app: App) => {
   if (sel.match(/^#/g)) {
@@ -9,7 +9,7 @@ export const mount = (sel: string, app: App) => {
     if (el === null) {
       warn(`Provided Selector ${sel} is not exsisted in DOM.`);
     } else {
-      patch(el, app.$vnode);
+      patch(el, app());
     }
   } else {
     warn('Please provide a selector with id.');

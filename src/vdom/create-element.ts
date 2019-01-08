@@ -1,23 +1,17 @@
-import { Component } from '../component/func';
-import { isString } from '../utils';
+import { isString, isArray } from '../utils';
 import { VNode, VNodeData, VNodeChild, Props } from './vnode';
-import { createWatcher } from '@/observe/observer';
 
 export const h = (
-  tagOrComponent: string | Component,
+  tag: string,
   data: VNodeData<Props> = {},
-  children: VNodeChild[] = []) => {
-  let vnode: VNode;
-  const vnodeChildren = children.map((child: VNodeChild) => {
-    return isString(child) ? new VNode(undefined, undefined, undefined, child as string) : child;
-  }).filter((child: VNodeChild) => child) as VNode[];
-  if (isString(tagOrComponent)) {
-    const tag = tagOrComponent as string;
-    vnode = new VNode(tag, data, vnodeChildren);
+  children: VNodeChild[] | string = []) => {
+  let vnodeChildren: VNode[];
+  if (isArray(children)) {
+    vnodeChildren = children.map((child: VNodeChild) => {
+      return isString(child) ? new VNode(undefined, undefined, undefined, child as string) : child;
+    }).filter((child: VNodeChild) => child) as VNode[];
   } else {
-    const comp = tagOrComponent as Component;
-    comp.$watcher = createWatcher(comp, data.props, children);
-    vnode = comp.$vnode as VNode;
+    vnodeChildren = [new VNode(undefined, undefined, undefined, children)];
   }
-  return vnode;
+  return new VNode(tag, data, vnodeChildren);
 };

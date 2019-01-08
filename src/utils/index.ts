@@ -10,3 +10,5 @@ export const isFunction = (v: any): boolean => typeof v === 'function';
 export const isArray = (v: any): v is any[] => Array.isArray(v);
 export const warn = console.warn;
 export const log = console.log;
+export const lastItem = <T>(arr: T[]): T => arr[arr.length - 1];
+export const deleteItem = <T>(arr: T[], item: T) => arr.splice(arr.indexOf(item), 1);
