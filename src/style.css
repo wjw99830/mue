@@ -1,0 +1,62 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+#bill-app {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+aside, main {
+  display: inline-block;
+  height: calc(100% - 60px);
+  vertical-align: top;
+}
+aside {
+  background-color: #333;
+  border-right: 1px solid #eee;
+  width: 200px;
+}
+aside a {
+  display: block;
+  padding: 10px;
+  padding-left: 30px;
+  color: #fff;
+  cursor: pointer;
+  transition: all .2s;
+}
+aside a:hover {
+  color: #0ae;
+  background-color: #222;
+}
+main {
+  width: calc(100% - 201px);
+  background-color: #eee;
+}
+main > div {
+  padding: 30px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+main > div label {
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+}
+header {
+  height: 60px;
+  background-color: rgb(27, 25, 25);
+}
+.btn-submit {
+  background-color: #0ae;
+  color: #fff;
+  border: 1px solid #09d;
+  padding: 5px 20px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all .2s;
+}
+.btn-submit:active {
+  background-color: #00a0ee;
+}

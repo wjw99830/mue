@@ -1,48 +1,23 @@
-import { Wie, h } from './wie';
-import { init, use, InnerStateComponent } from './component';
-import { observe } from './observe/observer';
-const data = observe({
-  name: 'wjw',
-});
-const btn: InnerStateComponent = (state: any, props: any = { color: '#fff' }) => {
-  const vnode = h('button', {
-    class: {
-      'btn-active': state.active,
-    },
-    style: {
-      backgroundColor: props.color,
-    },
-    on: {
-      click: () => {
-        console.log(state.active)
-        state.active = !state.active;
-        console.log(state.active)
-      },
-    },
-  }, `I'm button ${data.name}`);
-  return vnode;
-};
+import { Wie } from './wie';
+import { App, use } from './component';
+import { h } from './vdom/create-element';
+import './style.css';
+import { Router, RouterView, RouterLink, LinkProps } from './router';
+import { addPage } from './pages/add';
 
-const btnapi = init({ active: false }, btn);
-const page = () => {
-  return h('div', {
-    attrs: {
-      id: 'my-app',
-    },
-    on: {
-      click: () => {
-        data.name = 'wjw';
-      },
-    },
-  }, [
-    h('p', {}, `I'm text node of P and my name is ${data.name}`),
-    use(btnapi, {
-      color: '#ddd',
-    }),
-    use(btnapi, {
-      color: '#bbb',
-    }),
+Router.routes = {
+  '/add': addPage,
+  '/': addPage,
+};
+const app: App = () => {
+  const appAttr = { attrs: { id: 'bill-app' } };
+  return h('div', appAttr, [
+    h('header', {}, []),
+    h('aside', {}, [
+      use(RouterLink, { to: '/add', text: '添加' } as LinkProps),
+      use(RouterLink, { to: '/query', text: '查询' } as LinkProps),
+    ]),
+    use(RouterView),
   ]);
 };
-const app = () => use(page);
 Wie(app)('#app');

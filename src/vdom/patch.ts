@@ -5,7 +5,7 @@ import * as dom from '../utils/domapi';
 
 export const equalVNode = (n1: VNode, n2: VNode) => n1.tag === n2.tag;
 
-export const patch = (oldVNode: VNode | Node | void, newVNode: VNode = new VNode()) => {
+export const patch = (oldVNode: VNode | Node | void, newVNode: VNode) => {
   if (isUndef(oldVNode)) {
     return;
   }

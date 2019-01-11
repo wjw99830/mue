@@ -1,15 +1,17 @@
 import { Dep } from './dep';
 import { Watcher, popWatcher, pushWatcher } from './watcher';
-import { Component } from '../component';
+import { ComponentGenerator, StatelessComponent, OuterStateComponent } from '../component';
 import { patch } from '../vdom/patch';
 import { keys } from '../utils/iterators';
 import { isFunction, isArray, isDef, isUndef, warn, easyCopy } from '../utils';
 
-export const createWatcher = (comp: Component, props: any) => new Watcher((w: Watcher) => {
-  const vnode = comp(props);
-  patch(w.$vnode, vnode);
-  w.$vnode = vnode;
-});
+export const createWatcher = (comp: StatelessComponent | ComponentGenerator | OuterStateComponent, props: any) => {
+  return new Watcher((w: Watcher, init: boolean = false) => {
+    const vnode = comp(props, init);
+    patch(w.$vnode, vnode);
+    w.$vnode = vnode;
+  });
+};
 export const observe = <T>(target: T): T => {
   const copy = easyCopy(target);
   const ob = new Observer(copy);
