@@ -8,7 +8,9 @@ export const h = (
   let vnodeChildren: VNode[];
   if (isArray(children)) {
     vnodeChildren = children.map((child: VNodeChild) => {
-      return isString(child) ? new VNode(undefined, undefined, undefined, child as string) : child;
+      return isString(child)
+      ? new VNode(undefined, undefined, undefined, child as string)
+      : child;
     }).filter((child: VNodeChild) => child) as VNode[];
   } else {
     vnodeChildren = [new VNode(undefined, undefined, undefined, children)];

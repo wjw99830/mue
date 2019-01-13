@@ -1,7 +1,7 @@
 import { mount } from './vdom/mount';
 import { App } from './component';
 
-export function Wie(app: App) {
+export const render = (app: App) => {
   return (sel: string) => {
     mount(sel, app);
   };

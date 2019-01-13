@@ -1,53 +1,107 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 13px;
 }
 #bill-app {
   position: absolute;
   height: 100%;
   width: 100%;
 }
-aside, main {
+label {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+label span {
   display: inline-block;
-  height: calc(100% - 60px);
-  vertical-align: top;
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
 }
-aside {
-  background-color: #333;
-  border-right: 1px solid #eee;
-  width: 200px;
+input {
+  width: calc(100% - 30px);
+  height: 30px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 3px 5px;
+  font-size: 16px;
 }
-aside a {
-  display: block;
-  padding: 10px;
-  padding-left: 30px;
+nav {
+  height: 40px;
   color: #fff;
-  cursor: pointer;
-  transition: all .2s;
+  background-color: rgb(27, 25, 25);
 }
-aside a:hover {
-  color: #0ae;
-  background-color: #222;
+nav span {
+  display: inline-block;
+  height: 100%;
+  width: 50px;
+  line-height: 20px;
+  padding: 10px;
+}
+nav > div {
+  position: fixed;
+  top: 40px;
+  background-color: rgb(27, 25, 25);
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+nav a {
+  padding: 5px 0;
 }
 main {
-  width: calc(100% - 201px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: calc(100% - 40px);
+  width: 100%;
   background-color: #eee;
 }
 main > div {
-  padding: 30px 20px;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
 }
 main > div label {
   display: flex;
   justify-content: space-between;
-  width: 250px;
+  overflow: hidden;
 }
-header {
-  height: 60px;
-  background-color: rgb(27, 25, 25);
+.table-wrapper {
+  padding: 10px 10px;
+  padding-top: 0;
+  overflow-y: auto;
+  background-color: #fff;
+  height: calc(100% - 90px);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th {
+  border-bottom: 1px solid #ddd;
+  font-weight: normal;
+  padding: 15px 8px;
+}
+th, td {
+  text-align: center;
+}
+td {
+  padding: 10px 8px;
 }
 .btn-submit {
+  display: block;
+  margin: 10px 20px;
+  height: 40px;
+  font-size: 16px;
   background-color: #0ae;
   color: #fff;
   border: 1px solid #09d;

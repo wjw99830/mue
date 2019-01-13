@@ -1,8 +1,8 @@
 import { h } from '@/vdom/create-element';
 
 export interface InputProps {
-  bind(e: Event): any;
   value: string;
+  bind(e: Event): any;
 }
 export const input = (props: InputProps) => {
   const inputData = {

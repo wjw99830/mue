@@ -25,3 +25,9 @@ export const removeStyle = (el: HTMLElement, name: string) => {
   return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = '';
 };
 export const setTextContent = (node: Text, text: string) => node.textContent = text;
+export const addEventListener = (el: HTMLElement, eventName: string, handler: (e: Event) => void, useCapture: boolean = false) => {
+  el.addEventListener(eventName, handler, useCapture);
+};
+export const removeEventListener = (el: HTMLElement, eventName: string, handler: (e: Event) => void, useCapture: boolean = false) => {
+  el.removeEventListener(eventName, handler, useCapture);
+};

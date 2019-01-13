@@ -77,15 +77,15 @@ export class VNode {
       }
     }
   }
-  private removeEventListeners(el: HTMLElement) {
-    const data = this.data as VNodeData<Props>;
-    if (isDef(data.on)) {
-      const on = data.on as On;
-      for (const eventName of keys(on)) {
-        el.removeEventListener(eventName, on[eventName]);
-      }
-    }
-  }
+  // private removeEventListeners(el: HTMLElement) {
+  //   const data = this.data as VNodeData<Props>;
+  //   if (isDef(data.on)) {
+  //     const on = data.on as On;
+  //     for (const eventName of keys(on)) {
+  //       el.removeEventListener(eventName, on[eventName]);
+  //     }
+  //   }
+  // }
   private appendChildren(el: HTMLElement) {
     if (isDef(this.children)) {
       const children = this.children as VNodeChild[];

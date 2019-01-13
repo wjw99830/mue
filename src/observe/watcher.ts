@@ -6,6 +6,7 @@ export class Watcher {
   public static target: Watcher[] = [];
   public children: Watcher[] = [];
   public $vnode!: VNode;
+  public state: any;
   private deps: Dep[] = [];
   constructor(public update: (w: Watcher, initial: boolean) => void, lazy: boolean = false) {
     if (!lazy) {

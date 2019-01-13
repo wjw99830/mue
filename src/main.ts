@@ -1,23 +1,26 @@
-import { Wie } from './wie';
+import * as Wie from './wie';
 import { App, use } from './component';
 import { h } from './vdom/create-element';
 import './style.css';
-import { Router, RouterView, RouterLink, LinkProps } from './router';
+import { Router, RouterView } from './router';
 import { addPage } from './pages/add';
+import { queryPage } from './pages/query';
+import { nav } from './components/nav';
 
 Router.routes = {
   '/add': addPage,
-  '/': addPage,
+  '/query': queryPage,
+  '/': queryPage,
 };
 const app: App = () => {
   const appAttr = { attrs: { id: 'bill-app' } };
   return h('div', appAttr, [
-    h('header', {}, []),
-    h('aside', {}, [
-      use(RouterLink, { to: '/add', text: '添加' } as LinkProps),
-      use(RouterLink, { to: '/query', text: '查询' } as LinkProps),
-    ]),
-    use(RouterView),
+    use(nav),
+    use(RouterView, {
+      defaultComponent: queryPage,
+    }),
   ]);
 };
-Wie(app)('#app');
+document.addEventListener('deviceready', () => {
+  Wie.render(app)('#app');
+});

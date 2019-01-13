@@ -18,7 +18,9 @@ export class Router {
   public static state: RouterState = observe({ path: location.pathname });
   public static push(path: string) {
     history.pushState({ path }, path, path);
-    Router.state.path = path;
+    if (Router.state.path !== path) {
+      Router.state.path = path;
+    }
   }
   public static back() {
     history.back();
@@ -31,7 +33,9 @@ export class Router {
   }
 }
 window.addEventListener('popstate', (e) => {
-  Router.state.path = location.pathname;
+  if (Router.state.path !== location.pathname) {
+    Router.state.path = location.pathname;
+  }
 });
 export { RouterLink, LinkProps } from './link';
 export { RouterView } from './view';
