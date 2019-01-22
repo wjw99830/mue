@@ -1,12 +1,6 @@
 import { Component } from '../component';
-import { observe } from '@/observe/observer';
+import { observe } from '../observe/observer';
 
-// interface RoutesItem {
-//   component: Component;
-//   components?: Component[];
-//   redirect?: string;
-//   children?: Routes;
-// }
 interface Routes {
   [path: string]: Component;
 }

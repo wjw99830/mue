@@ -7,6 +7,19 @@ export const render = (app: App) => {
   };
 }
 export { h } from './vdom/create-element';
-export { Component, App, InnerStateComponent, init, use } from './component';
+export { 
+  App,
+  Component,
+  InnerStateComponent,
+  OuterStateComponent,
+  ResetState,
+  ComponentGenerator,
+  StatefulComponent,
+  StatelessComponent,
+  init,
+  use,
+  activate,
+  effect,
+} from './component';
 export { nextTick } from './utils/nextTick';
 export { observe } from './observe/observer';

@@ -1,6 +1,6 @@
 import { Dep } from './dep';
 import { VNode } from '../vdom/vnode';
-import { lastItem, deleteItem } from '../utils';
+import { lastItem } from '../utils';
 export const watcherQ: Watcher[] = [];
 export class Watcher {
   public static target: Watcher[] = [];
