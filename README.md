@@ -1,4 +1,4 @@
 # Wie
 ```
-npm install
+npm install -S wie
 ```
