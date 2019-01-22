@@ -1,4 +1,4 @@
-import { VNode, Attrs, Props, Classes, VNodeStyle, VNodeData } from './vnode';
+import { VNode, Attrs, Props, Classes, VNodeStyle, VNodeData, On } from './vnode';
 import { entries } from '../utils/iterators';
 import { has, isDef, isUndef } from '../utils';
 import { patch } from './patch';
@@ -6,13 +6,16 @@ import * as dom from '../utils/domapi';
 
 export const diffData = (old: VNode, vnode: VNode) => {
   const el = old.el as HTMLElement & Props;
+  if (!el) {
+    return;
+  }
   const oldData = old.data as VNodeData<Props>;
   const newData = vnode.data as VNodeData<Props>;
   const oldAttrs = (oldData.attrs || {}) as Attrs;
   const newAttrs = (newData.attrs  || {}) as Attrs;
   for (const [name, val] of entries(newAttrs)) {
     const valStr = val.toString();
-    if (valStr !== oldAttrs[name].toString()) {
+    if (valStr !== (oldAttrs[name] ? oldAttrs[name].toString() : '')) {
       dom.setAttribute(el, name, valStr);
     }
   }
@@ -56,6 +59,14 @@ export const diffData = (old: VNode, vnode: VNode) => {
     if (!has(newStyle, name)) {
       dom.removeStyle(el, name);
     }
+  }
+  const oldEvents = (oldData.on || {}) as On;
+  const newEvents = (newData.on || {}) as On;
+  for (const [name, handler] of entries(oldEvents)) {
+    dom.removeEventListener(el, name, handler);
+  }
+  for (const [name, handler] of entries(newEvents)) {
+    dom.addEventListener(el, name, handler);
   }
 };
 export const diffChildren = (old: VNode, vnode: VNode) => {

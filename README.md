@@ -1,4 +1,4 @@
-# Wie
+# mini-vue
 
 ## Project setup
 ```

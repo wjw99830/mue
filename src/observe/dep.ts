@@ -1,4 +1,4 @@
-import { Watcher, watcherQ } from './watcher';
+import { Watcher, watcherQ, hasParent } from './watcher';
 
 export class Dep {
   private subs: Watcher[] = [];
@@ -13,7 +13,7 @@ export class Dep {
       });
     }
     for (let i = 0, l = subs.length; i < l; i++) {
-      if (!watcherQ.includes(subs[i])) {
+      if (!watcherQ.includes(subs[i]) && !hasParent(subs[i])) {
         watcherQ.push(subs[i]);
       }
     }

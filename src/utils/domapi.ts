@@ -18,10 +18,16 @@ export const setProp = (node: Props, propName: string, val: any) => node[propNam
 export const removeProp = (node: Props, propName: string) => node[propName] = null;
 export const setClass = (el: Element, className: string) => el.classList.add(className);
 export const removeClass = (el: Element, className: string) => el.classList.remove(className);
-export const setStyle = (el: HTMLElement, name: string, val: string) => {
-  return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = val;
+export const setStyle = (el: HTMLElement, name: string, val?: string | null) => {
+  return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = val || '';
 };
 export const removeStyle = (el: HTMLElement, name: string) => {
   return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = '';
 };
 export const setTextContent = (node: Text, text: string) => node.textContent = text;
+export const addEventListener = (el: HTMLElement, eventName: string, handler: (e: Event) => void, useCapture: boolean = false) => {
+  el.addEventListener(eventName, handler, useCapture);
+};
+export const removeEventListener = (el: HTMLElement, eventName: string, handler: (e: Event) => void, useCapture: boolean = false) => {
+  el.removeEventListener(eventName, handler, useCapture);
+};

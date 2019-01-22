@@ -1,45 +1,24 @@
 import { Dep } from './dep';
 import { Watcher, popWatcher, pushWatcher } from './watcher';
-import { Component } from '../component/func';
+import { ComponentGenerator, StatelessComponent, OuterStateComponent } from '../component';
 import { patch } from '../vdom/patch';
-import { Props, VNodeChild } from '../vdom/vnode';
 import { keys } from '../utils/iterators';
-import { isFunction, isArray, isDef, isUndef, warn } from '../utils';
+import { isFunction, isArray, isDef, isUndef, warn, easyCopy } from '../utils';
 
-export const createWatcher = (comp: Component, props: Props = {}, children: VNodeChild[] = []) => new Watcher(() => {
-  if (isUndef(comp.$watcher)) {
-    if (comp.beforeCreate) {
-      comp.beforeCreate();
-    }
-  } else {
-    if (comp.beforeUpdate) {
-      comp.beforeUpdate();
-    }
-  }
-  const vnode = comp(props, children);
-  if (isUndef(comp.$watcher)) {
-    if (comp.created) {
-      comp.created();
-    }
-  }
-  patch(comp.$vnode, vnode);
-  comp.$vnode = vnode;
-  if (isUndef(comp.$watcher)) {
-    if (comp.mounted) {
-      comp.mounted();
-    }
-  } else {
-    if (comp.updated) {
-      comp.updated();
-    }
-  }
-});
-export const observe = (target: object) => {
-  const ob = new Observer(target);
+export const createWatcher = (comp: StatelessComponent | ComponentGenerator | OuterStateComponent, props: any) => {
+  return new Watcher((w: Watcher, init: boolean = false) => {
+    const vnode = comp(props, init);
+    patch(w.$vnode, vnode);
+    w.$vnode = vnode;
+  });
+};
+export const observe = <T>(target: T): T => {
+  const copy = easyCopy(target);
+  const ob = new Observer(copy);
   return ob.proxy;
 };
 export class Observer {
-  public proxy!: object & Record<string, any>;
+  public proxy!: any;
   private deps: { [index: string]: Dep } = {};
   private dep?: Dep; // for Array
   constructor(target: object & Record<string, any>, private isProps: boolean = false) {
