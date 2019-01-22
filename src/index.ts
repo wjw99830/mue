@@ -23,3 +23,4 @@ export {
 } from './component';
 export { nextTick } from './utils/nextTick';
 export { observe } from './observe/observer';
+export { Router, RouterLink, RouterView } from './router'
