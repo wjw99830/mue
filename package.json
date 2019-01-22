@@ -8,7 +8,7 @@
     "typescript": "^3.0.0"
   },
   "description": "```\r npm install\r ```",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wjw99830/wie.git"
