@@ -13,7 +13,6 @@ Router.routes = {
   '/': queryPage,
 };
 const app: App = () => {
-  const appAttr = { attrs: { id: 'bill-app' } };
   return h('div', appAttr, [
     use(nav),
     use(RouterView, {
