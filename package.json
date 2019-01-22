@@ -1,6 +1,6 @@
 {
   "name": "wie",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "test": "echo That's no test."
   },
