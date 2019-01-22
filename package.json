@@ -7,7 +7,7 @@
   "devDependencies": {
     "typescript": "^3.0.0"
   },
-  "description": "```\r npm install\r ```",
+  "description": "A reactive library based on ES6's Proxy.Support JSX.",
   "main": "src/index.js",
   "repository": {
     "type": "git",
