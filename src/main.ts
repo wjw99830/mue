@@ -1,24 +1,26 @@
-import { Wie, Component, h, App, observe } from './wie';
-import { VNodeChild } from './vdom/vnode';
-interface CompProps {
-  prop: string;
-}
-const t = observe({
-  tt: 's',
+import * as Wie from './wie';
+import { App, use } from './component';
+import { h } from './vdom/create-element';
+import './style.css';
+import { Router, RouterView } from './router';
+import { addPage } from './pages/add';
+import { queryPage } from './pages/query';
+import { nav } from './components/nav';
+
+Router.routes = {
+  '/add': addPage,
+  '/query': queryPage,
+  '/': queryPage,
+};
+const app: App = () => {
+  const appAttr = { attrs: { id: 'bill-app' } };
+  return h('div', appAttr, [
+    use(nav),
+    use(RouterView, {
+      defaultComponent: queryPage,
+    }),
+  ]);
+};
+document.addEventListener('deviceready', () => {
+  Wie.render(app)('#app');
 });
-const comp: Component = (props: CompProps, children: VNodeChild[]) => h('p', {}, [
-  'p text node and my prop is ' + props.prop,
-  h('button', {
-    on: {
-      click: () => {
-        t.tt += 's';
-      },
-    },
-  },
-  [t.tt, ...children]),
-]);
-const app: App = () => h('div', {}, [
-  'div text node' + t.tt,
-  h(comp, { props: { prop: 's' } as CompProps }, ['   im child for comp']),
-]);
-Wie(app)('#app');
