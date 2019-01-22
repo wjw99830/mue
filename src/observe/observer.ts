@@ -4,7 +4,7 @@ import { ComponentGenerator, OuterStateComponent } from '../component';
 import { patch } from '../vdom/patch';
 import { keys } from '../utils/iterators';
 import { isFunction, isArray, isDef, isUndef, warn, easyCopy } from '../utils';
-import { VNode } from '@/vdom/vnode';
+import { VNode } from '../vdom/vnode';
 
 export const createWatcher = (comp: ComponentGenerator | OuterStateComponent, props: any) => {
   return new Watcher((w: Watcher, init: boolean = false) => {
