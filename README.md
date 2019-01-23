@@ -19,7 +19,7 @@ h('div', {
   }
 }, 'text node');
 ```
-* use: (comp: Component, props: any) => VNode | ComponentGenerator
+* use: (comp: Component, props: any) => VNode
 ```
 use(MyComponent, {
   myProp: 'prop'
