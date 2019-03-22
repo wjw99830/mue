@@ -1,10 +1,10 @@
-import { InnerStateComponent, init, use } from '@/component';
+import { StatefulComponent, init, use } from '@/component';
 import { h } from '@/vdom/create-element';
 import { RouterLink } from '@/router';
 interface NavState {
   menuDisplayed: boolean;
 }
-export const navComp: InnerStateComponent = (state: NavState) => {
+export const navComp: StatefulComponent = (state: NavState) => {
   return h('nav', {}, [
     h('span', {
       on: {

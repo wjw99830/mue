@@ -1,8 +1,7 @@
 import { h } from '@/vdom/create-element';
-import { input, InputProps } from '@/components/input';
-import { use, InnerStateComponent, init, effect } from '@/component';
+import { input, InputProps } from '@/components/input.tsx';
+import { use, StatefulComponent, init, effect } from '@/component';
 import { addRecord } from '@/request';
-import { mount } from '@/vdom/mount';
 export interface BillFields {
   year: string;
   month: string;
@@ -10,7 +9,7 @@ export interface BillFields {
   amount: string;
   description: string;
 }
-const add: InnerStateComponent = (state: BillFields) => {
+const add: StatefulComponent = (state: BillFields) => {
   return h('main', { attrs: { class: 'add-page' } }, [
     h('label', {}, [h('span', {}, '年'), use(input, {
       value: state.year,
@@ -48,6 +47,7 @@ const add: InnerStateComponent = (state: BillFields) => {
       },
     } as InputProps)]),
     h('button', { attrs: { class: 'btn-submit' }, on: { click: () => {
+      console.log(state);
       addRecord(state).then((data) => console.log(data));
     } } }, '提交'),
   ]);

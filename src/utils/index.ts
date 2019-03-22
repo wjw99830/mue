@@ -1,4 +1,4 @@
-import { ResetState, OuterStateComponent } from '../component';
+import { StateResetor } from '../component';
 
 export const isUndef = (v: any): v is undefined => typeof v === 'undefined';
 export const isDef = (v: any): boolean => typeof v !== 'undefined';
@@ -12,8 +12,7 @@ export const isPrivateField = (fieldName: string | number): boolean => {
 };
 export const isFunction = (v: any): boolean => typeof v === 'function';
 export const isArray = (v: any): v is any[] => Array.isArray(v);
-export const isResetState = (reset: any): reset is ResetState => reset.$type === 'reset';
-export const isOuterState = (comp: any): comp is OuterStateComponent => comp.$type === 'outerstate';
+export const isStateResetor = (reset: any): reset is StateResetor => reset.$type === 'reset';
 export const warn = console.warn;
 export const log = console.log;
 export const lastItem = <T>(arr: T[]): T => arr[arr.length - 1];

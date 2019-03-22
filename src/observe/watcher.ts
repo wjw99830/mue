@@ -8,7 +8,10 @@ export class Watcher {
   public $vnode!: VNode;
   public state: any;
   private deps: Dep[] = [];
-  constructor(public update: (w: Watcher, initial: boolean) => void, lazy: boolean = false) {
+  constructor(
+    public update: (w: Watcher, initial: boolean) => void,
+    lazy: boolean = false,
+  ) {
     if (!lazy) {
       this.run(true);
     }

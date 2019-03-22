@@ -12,7 +12,9 @@ export const insertBefore = (parent: Node, newChild: Node, sibling: Node | null)
   return parent.insertBefore(newChild, sibling);
 };
 export const nextSibling = (node: Node) => node.nextSibling;
-export const setAttribute = (el: HTMLElement, attrName: string, val: string) => el.setAttribute(attrName, val);
+export const setAttribute = (el: HTMLElement, attrName: string, val: string) => {
+  return el.setAttribute(attrName, val);
+};
 export const removeAttribute = (el: HTMLElement, attrName: string) => el.removeAttribute(attrName);
 export const setProp = (node: Props, propName: string, val: any) => node[propName] = val;
 export const removeProp = (node: Props, propName: string) => node[propName] = null;
@@ -25,9 +27,19 @@ export const removeStyle = (el: HTMLElement, name: string) => {
   return (el.style as CSSStyleDeclaration & VNodeStyle)[name] = '';
 };
 export const setTextContent = (node: Text, text: string) => node.textContent = text;
-export const addEventListener = (el: HTMLElement, eventName: string, handler: (e: Event) => void, useCapture: boolean = false) => {
+export const addEventListener = (
+  el: HTMLElement,
+  eventName: string,
+  handler: (e: Event) => void,
+  useCapture: boolean = false,
+) => {
   el.addEventListener(eventName, handler, useCapture);
 };
-export const removeEventListener = (el: HTMLElement, eventName: string, handler: (e: Event) => void, useCapture: boolean = false) => {
+export const removeEventListener = (
+  el: HTMLElement,
+  eventName: string,
+  handler: (e: Event) => void,
+  useCapture: boolean = false,
+) => {
   el.removeEventListener(eventName, handler, useCapture);
 };

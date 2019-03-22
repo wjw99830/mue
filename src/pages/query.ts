@@ -1,7 +1,7 @@
 import { BillFields } from './add';
-import { InnerStateComponent, use, init, effect } from '@/component';
+import { StatefulComponent, use, init } from '@/component';
 import { h } from '@/vdom/create-element';
-import { InputProps, input } from '@/components/input';
+import { InputProps, input } from '@/components/input.tsx';
 import { getRecord } from '@/request';
 import { store } from '@/store';
 
@@ -11,7 +11,7 @@ export interface QueryState {
   day: string;
   data: Array<BillFields & { id: number }>;
 }
-const query: InnerStateComponent = (state: QueryState) => {
+const query: StatefulComponent = (state: QueryState) => {
   return h('main', {}, [
     h('label', {}, [h('span', {}, '年'), use(input, {
       value: state.year,

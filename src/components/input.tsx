@@ -16,5 +16,8 @@ export const input = (props: InputProps) => {
       type: 'text',
     },
   };
-  return h('input', inputData);
+  h('input', inputData);
+  return (
+    <input value={props.value || ''} onInput={props.bind} type='text' />
+  );
 };
